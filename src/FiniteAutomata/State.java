@@ -1,6 +1,9 @@
+package FiniteAutomata;
+
 public class State implements Cloneable, Comparable<State> {
     public String name;
     public boolean isFinal;
+
 
     public String toString() {
         return "node [" + "shape = " + (isFinal ? "doublecircle" : "circle") + "];" + " " + name.replace(",", "") + ";";
@@ -8,7 +11,7 @@ public class State implements Cloneable, Comparable<State> {
 
     public State(String name, boolean isFinal) {
         if (name.contains(" ")) {
-            throw new IllegalArgumentException("State name cannot contain spaces");
+            throw new IllegalArgumentException("FiniteAutomata.State name cannot contain spaces");
         }
         this.name = name;
         this.isFinal = isFinal;

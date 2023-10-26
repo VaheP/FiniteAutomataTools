@@ -1,3 +1,5 @@
+package FiniteAutomata;
+
 import java.util.*;
 
 public class FA {
@@ -9,7 +11,7 @@ public class FA {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("digraph FA {\n");
+        sb.append("digraph FiniteAutomata {\n");
         sb.append("rankdir=LR;\n");
         sb.append("node [shape = circle];\n");
         for (State node : states) {
@@ -120,7 +122,11 @@ public class FA {
 
 
 
-    public boolean addTransition(Transition ... toAdd) {
+    public void addTransition(Transition ... toAdd) {
+        if (this.deltaFunction == null) {
+            this.deltaFunction = toAdd;
+            return;
+        }
         Transition[] newTransitions = new Transition[deltaFunction.length + toAdd.length];
         int i = 0;
         for (Transition transition : deltaFunction) {
@@ -132,10 +138,13 @@ public class FA {
             i++;
         }
         deltaFunction = newTransitions;
-        return true;
     }
 
-    public boolean addState(State ... toAdd) {
+    public void addState(State ... toAdd) {
+        if (this.states == null) {
+            this.states = toAdd;
+            return;
+        }
         State[] newStates = new State[states.length + toAdd.length];
         int i = 0;
         for (State state : states) {
@@ -147,7 +156,6 @@ public class FA {
             i++;
         }
         states = newStates;
-        return true;
     }
 
     public Iterable<State> finalStates() {
@@ -264,6 +272,7 @@ public class FA {
         return transitions.toArray(new Transition[transitions.size()]);
     }
 
+
     public State getStateByName(String name) {
         for (State state : states) {
             if (state.name.equals(name)) {
@@ -272,5 +281,31 @@ public class FA {
         }
         return null;
     }
+
+    public void renameStates() {
+        // the start state is always q0
+        start.name = "q0";
+
+        // rename all other states
+        for (int i = 0; i < states.length; i++) {
+            if (states[i].equals(start)) {
+                continue;
+            }
+            states[i].name = "q" + (i+1);
+        }
+
+    }
+
+    public Collection<State> getTransition(State from, String symbol) {
+        List<State> states = new ArrayList<>();
+        for (Transition transition : deltaFunction) {
+            if (transition.from == from && transition.symbol.equals(symbol)) {
+                states.add(transition.to);
+            }
+        }
+        return states;
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
+package FiniteAutomata;
+
+import java.util.*;
 
 public class DFA extends FA {
 

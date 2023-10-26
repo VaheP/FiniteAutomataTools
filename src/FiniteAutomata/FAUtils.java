@@ -1,3 +1,5 @@
+package FiniteAutomata;
+
 public class FAUtils {
     public static NFA Union (FA a, FA b) {
 //        rename all states to avoid name conflicts
